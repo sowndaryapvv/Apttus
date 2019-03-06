@@ -1,0 +1,102 @@
+DECLARE I INTEGER 1;
+DECLARE J INTEGER 1;
+DECLARE E_1 CHARACTER;
+DECLARE E_2 CHARACTER;
+DECLARE E_3 CHARACTER;
+DECLARE E_4 CHARACTER;
+DECLARE E_5 CHARACTER;
+DECLARE choice CHARACTER; 
+CREATE COMPUTE MODULE Sc1Trial_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET E_1 = Employee_Name;
+        SET E_2 = Employee_Number;
+        SET E_3 = Employee_ZipCode;
+        SET E_4 = Employee_Department;
+        SET E_5 = Employee_Address; 
+		 CREATE FIELD InputRoot.JSON.Data.Employee_Data IDENTITY(JSON.Array)Employee_Data;
+        CREATE FIELD OutputRoot.JSON.Data.Employee_Data IDENTITY(JSON.Array)Employee_Data;
+        DECLARE COUNT INT CARDINALITY(InputRoot.JSON.Data.Employee_Data.Item[]);
+      	SET choice = Choice;
+		IF choice = 'Insert' THEN
+			  CALL CopyInsert();
+		END IF;
+		IF choice = 'Update' THEN
+		  CALL CopyUpdate();  
+		END IF;
+		IF choice = 'Delete' THEN
+			CALL CopyDelete();
+		END IF; 
+ 
+		RETURN TRUE;
+	END;
+	
+	CREATE PROCEDURE CopyInsert() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER 1;
+	
+		DECLARE COUNT INT CARDINALITY(InputRoot.JSON.Data.Employee_Data.Item[]);
+          WHILE(I <= COUNT) DO
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_ZipCode = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_ZipCode;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Department = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Department;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Address = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Address;
+        SET  I = I + 1;
+        END WHILE;
+        
+      	SET J = COUNT+1;
+      		
+      		WHILE( I <= J) DO
+        	SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name = E_1;
+        	SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number = E_2;
+        	SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_ZipCode = E_3;
+        	SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Department = E_4;
+	        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Address = E_5;
+	        SET  I = I + 1;        
+        	END WHILE;
+		END;
+		
+	CREATE PROCEDURE CopyUpdate() BEGIN
+		DECLARE COUNT INT CARDINALITY(InputRoot.JSON.Data.Employee_Data.Item[]);
+		WHILE (I <=COUNT) DO
+		IF InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number = E_2 THEN
+		
+		SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name = E_1;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number = E_2;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_ZipCode = E_3;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Department = E_4;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Address = E_5;
+		
+		ELSE
+		SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_ZipCode = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_ZipCode;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Department = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Department;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Address = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Address;
+		
+		END IF;	
+		SET I  =I +1;
+			END WHILE;
+		END;	
+		CREATE PROCEDURE CopyDelete() BEGIN
+			DECLARE COUNT INT CARDINALITY(InputRoot.JSON.Data.Employee_Data.Item[]);
+		WHILE (I <=COUNT) DO
+		IF InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number = E_2 THEN
+			SET OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name = E_1;
+		
+			DELETE FIELD OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name;
+		
+		ELSE
+		SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Name;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Number;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_ZipCode = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_ZipCode;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Department = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Department;
+        SET  OutputRoot.JSON.Data.Employee_Data.Item[I].Employee_Address = InputRoot.JSON.Data.Employee_Data.Item[I].Employee_Address;
+		
+		END IF;	
+		SET I  =I +1;
+			END WHILE;
+			END;
+END MODULE;
+	
