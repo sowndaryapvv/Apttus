@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MessagePool xmlns="http://wwww.ibm.com/iib/test/1.0.0">
+    <InputMessage timestamp="1549881251232" nodeId="FCMComposite_1_9" name="new message 2" id="1549881251232-220">
+        <plainText>%7B%0D%0A%09%09%22Employee_Name%22+%3A+%22Chikkiiii%22%2C%0D%0A%09%09%22Employee_Number%22+%3A+%22063601%22%2C%0D%0A%09%09%22Employee_ZipCode%22+%3A+%22507162%22%2C%0D%0A%09%09%22Employee_Department%22+%3A+%22GBS%22%2C%0D%0A%09%09%22Employee_Address%22+%3A+%22Hyderabad%22%2C%0D%0A%09%09%22Choice%22+%3A+%22Delete%22%0D%0A%7D</plainText>
+    </InputMessage>
+    <InputMessage timestamp="1549620650004" nodeId="FCMComposite_1_9" name="new message 4" id="1549620650004-906">
+        <plainText>%7B%0D%0A%09%09%22Employee_Name%22+%3A+%22Swapna%22%2C%0D%0A%09%09%22Employee_Number%22+%3A+%2206823T%22%2C%0D%0A%09%09%22Employee_ZipCode%22+%3A+%22507162%22%2C%0D%0A%09%09%22Employee_Department%22+%3A+%22GBS%22%2C%0D%0A%09%09%22Employee_Address%22+%3A+%22Hyderabad%22%2C%0D%0A%09%09%22Choice%22+%3A+%22Insert%22%0D%0A%09%09%7D</plainText>
+    </InputMessage>
+    <InputMessage timestamp="1549871157273" nodeId="FCMComposite_1_9" name="new message 1" id="1549871157258-1329">
+        <plainText>%7B%0D%0A%09%09%22Employee_Name%22+%3A+%22Swapna%22%2C%0D%0A%09%09%22Employee_Number%22+%3A+%22063600%22%2C%0D%0A%09%09%22Employee_ZipCode%22+%3A+%22507160%22%2C%0D%0A%09%09%22Employee_Department%22+%3A+%22GBS%22%2C%0D%0A%09%09%22Employee_Address%22+%3A+%22Hyderabad%22%2C%0D%0A%09%09%22Choice%22+%3A+%22Update%22%0D%0A%7D</plainText>
+    </InputMessage>
+</MessagePool>
