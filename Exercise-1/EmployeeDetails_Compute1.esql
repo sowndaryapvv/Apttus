@@ -1,0 +1,98 @@
+
+
+CREATE COMPUTE MODULE EmployeeDetails_Compute1
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		CREATE FIELD OutputRoot.JSON.Data.Employee_Data IDENTITY (JSON.Array)Employee_Data;		
+		SET OutputRoot.JSON.Data.Employee_Data.Item[] = InputRoot.JSON.Data.Employee_Data.Item[];
+	 DECLARE A INTEGER;
+		DECLARE P INTEGER;
+		DECLARE C INTEGER;
+	SET A = 1;
+		SET P = 1;
+	  DECLARE B INTEGER CARDINALITY(OutputRoot.JSON.Data.Employee_Data.Item[]);	
+
+			---- CREATE FIELD OutputRoot.JSON.Data.Employee_Data IDENTITY (JSON.Array)Employee_Data;			
+			DECLARE inRootRef REFERENCE TO InputRoot.JSON.Data.Employee_Data.Item[];
+		DECLARE outRootRef REFERENCE TO OutputRoot.JSON.Data.Employee_Data.Item[];
+			--- SET outRootRef.Item[A].COUNT = B;
+
+		WHILE A <= B DO
+			                               
+        	WHILE P <= B-1   DO 
+        		IF inRootRef.Item[P].Employee_Salary > inRootRef.Item[P+1].Employee_Salary  THEN
+                SET outRootRef.Item[A] = inRootRef.Item[P+1].Employee_Salary;
+                SET outRootRef.Item[A+1].Employee_Salary = inRootRef.Item[P].Employee_Salary;
+                               
+        		ELSE
+        			SET outRootRef.STATUS = 'FALSE';
+        			
+        		END IF;            
+              --- SET A= P ;
+              SET P = P + 1;	   
+              --- SET A = A + 1;
+          END WHILE;
+         SET A = A + 1;
+         END WHILE;
+         
+         --  SET OutputRoot.JSON.Data.Employee_Data.Employee_Detail.Name."Item"[] =
+          --   (SELECT  R.Employee_Name ,  R.Employee_Salary FROM InputRoot.JSON.Data.Employee_Data."Item"[] AS R
+          --   WHERE R.Employee_Number = '1234562');
+       
+    
+	/*	DECLARE A INTEGER;
+		DECLARE P INTEGER;
+		DECLARE C INTEGER;
+		SET A = 1;
+		SET P =  1;
+		SET C = 2;
+	  DECLARE B INTEGER CARDINALITY(OutputRoot.JSON.Data.Employee_Data.Item[]);	
+            --- B=10 
+						
+			DECLARE outRootRef REFERENCE TO OutputRoot.JSON.Data.Employee_Data;
+			--- SET outRootRef.Item[A].COUNT = B;
+
+		WHILE A <= B DO    /* 1<=10 */
+			
+        WHILE P <= B-1   DO      /* 1 <=9 */
+        		IF (outRootRef.Item[P].Employee_Salary) > (outRootRef.Item[P+1].Employee_Salary)  THEN
+        			SET outRootRef.item[C].Employee_Salary = outRootRef.Item[P].Employee_Salary;
+        			
+               --- SET outRootRef.Item[B] = outRootRef.Item[P];
+                ---SET outRootRef.Item[P] = outRootRef.Item[P]  ;
+                ---SET outRootRef.Item[P] = outRootRef.Item[B];
+               
+        		else
+        			set outRootRef.STATUS = 'FALSE';
+        			
+        		END IF;            
+        		 --- SET A= P ;
+        		        	SET P = P + 1;	   
+        		        	
+        		        	
+         
+
+--- SET A = A + 1;
+END WHILE;
+SET A = A + 1;
+	END WHILE; */
+		
+		RETURN TRUE;
+	END;
+
+/*	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END; */
+END MODULE;

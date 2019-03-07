@@ -1,0 +1,91 @@
+
+
+CREATE COMPUTE MODULE EmployeeDetails_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL SORT();		
+	END;
+	
+	CREATE PROCEDURE SORT() BEGIN
+		DECLARE A INTEGER;
+		DECLARE P INTEGER;
+		SET A = 1;
+		DECLARE B INTEGER CARDINALITY(InputRoot.JSON.Data.Employee_Data.Item[]);	
+
+			CREATE FIELD OutputRoot.JSON.Data.Employee_Data IDENTITY (JSON.Array)Employee_Data;			
+			DECLARE outRootRef REFERENCE TO OutputRoot.JSON.Data.Employee_Data;
+
+		WHILE A <= B DO
+
+			SET P = A + 1;
+        	WHILE P <= B or P = B+1   DO
+        		IF InputRoot.JSON.Data.Employee_Data.Item[A].Employee_Salary > InputRoot.JSON.Data.Employee_Data.Item[P].Employee_Salary  THEN
+                SET outRootRef.Item[A].Employee_Salary = InputRoot.JSON.Data.Employee_Data.Item[P].Employee_Salary;
+                
+        		ELSE
+        		SET outRootRef.Item[A].Employee_Salary = InputRoot.JSON.Data.Employee_Data.Item[A].Employee_Salary;	
+        		END IF;
+        	SET P = P + 1;	
+         END WHILE;
+
+SET A = A + 1;
+
+        END WHILE;
+
+        
+        END;
+END MODULE;
+
+		--REQUIREMENT-1 :
+		
+		/*  SET OutputRoot.JSON.Data.Employee_Data.Total_Employees_Administration =
+    (SELECT COUNT(*) FROM InputRoot.JSON.Data.Employee_Data."Item"[] AS S
+    WHERE S.Employee_Dep = 'Administration');
+
+     SET OutputRoot.JSON.Data.Employee_Data.Total_Employees_Accounts =
+    (SELECT COUNT(*) FROM InputRoot.JSON.Data.Employee_Data."Item"[] AS S
+    WHERE S.Employee_Dep = 'Accounts');
+
+     SET OutputRoot.JSON.Data.Employee_Data.Total_Employees_Security =
+    (SELECT COUNT(*) FROM InputRoot.JSON.Data.Employee_Data."Item"[] AS S
+    WHERE S.Employee_Dep = 'Security'); */
+    
+    --REQUIREMENT :2 :
+    
+    
+
+-- SET OutputRoot.JSON.Data.Employee_Data.Employee_Detail.Name."Item"[] =
+--    (SELECT ITEM S.Employee_Name || S.Employee_Salary FROM InputRoot.JSON.Data.Employee_Data."Item"[] AS S
+--    WHERE S.Employee_Salary < 'InputRoot.JSON.Data.Employee_Data.Employee_Detail.Salary');  
+    
+    --REQUIREMENT-3 :
+    
+    /*DECLARE Employee_Number INTEGER;
+
+
+  CREATE FIELD OutputRoot.JSON.Data.Employee_Data.Employee_Detail.Name IDENTITY (JSON.Array)Name;
+
+ SET OutputRoot.JSON.Data.Employee_Data.Employee_Detail.Name."Item"[] =
+    (SELECT ITEM S.Employee_Name FROM InputRoot.JSON.Data.Employee_Data."Item"[] AS S
+    WHERE S.Employee_Number = '1234567');  */
+    
+    ---REQUIREMENT-8 :
+    
+--    SET OutputRoot.JSON.Data.Employee_Data.Item[] = SELECT * FROM InputRoot.JSON.Data.Employee_Data.Item[] AS Emp 
+--    WHERE Emp."Employee_Salary" BETWEEN '10000' AND '20000';
+    
+    ---REQUIREMENT-4 :
+    
+--    SET OutputRoot.JSON.Data.Employee_Data.Employee_Detail."Item"[] = 
+--    (SELECT Item R.Employee_DateOfJoin FROM InputRoot.JSON.Data.Employee_Data.Item[] AS R WHERE R.Employee_Number = '1234562');
+--    DECLARE DateOfJoin CHARACTER OutputRoot.JSON.Data.Employee_Data.Item[];
+--    DECLARE DateOfJoin1 DATE;
+--    DECLARE PATTERN CHARACTER 'DD-MM-YYYY';
+--    SET DateOfJoin1 = CAST(DateOfJoin AS DATE FORMAT PATTERN);
+--    DECLARE year1 INTEGER EXTRACT (YEAR FROM CURRENT_DATE);
+--    DECLARE year2 INTEGER EXTRACT (YEAR FROM DateOfJoin);
+--    DECLARE numofyears INTEGER year1-year2;
+--    SET OutputRoot.JSON.Data.Employee_Data.numofyears = numofyears;
+    
+     
+	
